@@ -1,0 +1,505 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useRef, useState, type ChangeEvent } from "react";
+import {
+  Button,
+  Description,
+  FieldError,
+  Form,
+  Input,
+  Label,
+  ListBox,
+  NumberField,
+  Select,
+  Surface,
+  TextArea,
+  TextField,
+  toast,
+} from "@heroui/react";
+import { CloudArrowUpIn, Pencil, TrashBin } from "@gravity-ui/icons";
+
+const MAX_BANNER_BYTES = 5 * 1024 * 1024;
+const ACCEPTED_BANNER_TYPES = ["image/jpeg", "image/png", "image/webp"];
+
+const classLevels = [
+  { id: "class-1-5", label: "Class 1–5" },
+  { id: "class-6-8", label: "Class 6–8" },
+  { id: "ssc", label: "Class 9–10 (SSC)" },
+  { id: "hsc", label: "Class 11–12 (HSC)" },
+  { id: "admission", label: "Admission test" },
+  { id: "undergraduate", label: "Undergraduate" },
+  { id: "other", label: "Other" },
+];
+
+const modes = [
+  { id: "online", label: "Online" },
+  { id: "offline", label: "Offline (in person)" },
+  { id: "hybrid", label: "Hybrid" },
+];
+
+const fieldSurface =
+  "rounded-3xl border border-black/5 p-5 shadow-[0_30px_70px_-60px_rgba(4,56,47,0.7)] sm:p-6 lg:p-7";
+
+function formatFileSize(bytes: number) {
+  return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+}
+
+export default function NewTuitionForm() {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const uploadButtonRef = useRef<HTMLButtonElement>(null);
+  const bannerUrlRef = useRef<string | null>(null);
+
+  const [banner, setBanner] = useState<{ file: File; url: string } | null>(
+    null,
+  );
+  const [bannerError, setBannerError] = useState<string | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (bannerUrlRef.current) {
+        URL.revokeObjectURL(bannerUrlRef.current);
+        bannerUrlRef.current = null;
+      }
+    };
+  }, []);
+
+  const openFilePicker = () => {
+    fileInputRef.current?.click();
+  };
+
+  const clearBanner = () => {
+    if (bannerUrlRef.current) {
+      URL.revokeObjectURL(bannerUrlRef.current);
+      bannerUrlRef.current = null;
+    }
+
+    setBanner(null);
+    setBannerError(null);
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const handleBannerChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+
+    if (!file) {
+      return;
+    }
+
+    if (!ACCEPTED_BANNER_TYPES.includes(file.type)) {
+      setBannerError("Choose a PNG, JPG, or WebP image.");
+      return;
+    }
+
+    if (file.size > MAX_BANNER_BYTES) {
+      setBannerError("That image is larger than 5 MB. Choose a smaller file.");
+      return;
+    }
+
+    console.log(file);
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    const res = await fetch(
+      `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API_KEY}`,
+      {
+        method: "POST",
+        body: formData,
+      },
+    );
+
+    const result = await res.json();
+
+    console.log(result);
+    const url = result.data.url;
+
+    setBanner({ file, url });
+    setBannerError(null);
+  };
+
+  const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    if (!banner) {
+      setBannerError("Add a banner image for your tuition.");
+      uploadButtonRef.current?.focus();
+      toast.danger("Your tuition still needs a banner image.");
+      return;
+    }
+
+    const tutionData = Object.fromEntries(formData.entries());
+    tutionData.banner = banner.url
+
+    console.log(tutionData);
+  };
+
+  return (
+    <div className="mx-auto w-full max-w-4xl space-y-5 pb-10">
+      <Form onSubmit={handleSubmit} className="space-y-5">
+        <Surface className={fieldSurface}>
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex items-start gap-3">
+              <div>
+                <h2 className="text-lg font-bold tracking-tight text-[#04382f]">
+                  Post a New Tuition
+                </h2>
+                <p className="mt-1 text-sm text-neutral-500">
+                  {" "}
+                  Share the details students need to decide if your batch is the
+                  right fit. Good listings are specific about the level,
+                  schedule, and what learners get.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {/* Title */}
+            <TextField
+              isRequired
+              fullWidth
+              name="title"
+              className="sm:col-span-2"
+              validate={(value) => {
+                const title = value.trim();
+
+                if (!title) {
+                  return "Give your tuition a title.";
+                }
+
+                if (title.length < 8) {
+                  return "Use at least 8 characters so students know what it is.";
+                }
+
+                if (title.length > 90) {
+                  return "Keep the title under 90 characters.";
+                }
+                return null;
+              }}
+            >
+              <Label>Tuition title</Label>
+              <Input placeholder="e.g. HSC Physics batch — English version" />
+              <FieldError />
+            </TextField>
+
+            {/* Subject */}
+            <TextField
+              isRequired
+              fullWidth
+              name="subject"
+              validate={(value) => {
+                const subject = value.trim();
+
+                if (!subject) {
+                  return "Add the subject you teach.";
+                }
+
+                if (subject.length < 2) {
+                  return "The subject name is too short.";
+                }
+
+                return null;
+              }}
+            >
+              <Label>Subject</Label>
+              <Input placeholder="e.g. Physics" />
+              <FieldError />
+            </TextField>
+
+            <Select
+              isRequired
+              fullWidth
+              name="classLevel"
+              placeholder="Select a class level"
+            >
+              <Label>Class level</Label>
+              <Select.Trigger>
+                <Select.Value />
+                <Select.Indicator />
+              </Select.Trigger>
+              <Select.Popover>
+                <ListBox>
+                  {classLevels.map((level) => (
+                    <ListBox.Item
+                      key={level.id}
+                      id={level.id}
+                      textValue={level.label}
+                    >
+                      {level.label}
+                      <ListBox.ItemIndicator />
+                    </ListBox.Item>
+                  ))}
+                </ListBox>
+              </Select.Popover>
+              <FieldError />
+            </Select>
+
+            <Select
+              isRequired
+              fullWidth
+              name="mode"
+              placeholder="How will you teach?"
+              validate={(value) => {
+                if (!value) {
+                  return "Choose how you will teach this batch.";
+                }
+                return null;
+              }}
+            >
+              <Label>Mode</Label>
+              <Select.Trigger>
+                <Select.Value />
+                <Select.Indicator />
+              </Select.Trigger>
+              <Select.Popover>
+                <ListBox>
+                  {modes.map((option) => (
+                    <ListBox.Item
+                      key={option.id}
+                      id={option.id}
+                      textValue={option.label}
+                    >
+                      {option.label}
+                      <ListBox.ItemIndicator />
+                    </ListBox.Item>
+                  ))}
+                </ListBox>
+              </Select.Popover>
+              <FieldError />
+            </Select>
+
+            {/* Location */}
+            <TextField
+              isRequired
+              fullWidth
+              name="location"
+              validate={(value) => {
+                if (!value.trim()) {
+                  return "Add an area or say online.";
+                }
+                return null;
+              }}
+            >
+              <Label>Location</Label>
+              <Input placeholder="e.g. Dhanmondi, Dhaka" />
+              <FieldError />
+            </TextField>
+
+            {/* Monthly Fee */}
+
+            <NumberField
+              isRequired
+              fullWidth
+              name="monthlyFee"
+              minValue={500}
+              maxValue={200000}
+              step={500}
+              validate={(value) => {
+                if (!value) {
+                  return "Set a monthly fee.";
+                }
+                if (value == null) {
+                  return "Set a monthly fee.";
+                }
+
+                if (value < 500) {
+                  return "The monthly fee must be at least ৳500.";
+                }
+
+                if (value > 200000) {
+                  return "Keep the monthly fee under ৳200,000.";
+                }
+
+                return null;
+              }}
+            >
+              <Label>Monthly fee (৳)</Label>
+              <NumberField.Group>
+                <NumberField.DecrementButton aria-label="Decrease monthly fee" />
+                <NumberField.Input placeholder="e.g. 5000" />
+                <NumberField.IncrementButton aria-label="Increase monthly fee" />
+              </NumberField.Group>
+              <FieldError />
+            </NumberField>
+
+            {/* Days per Week */}
+            <NumberField
+              isRequired
+              fullWidth
+              name="daysPerWeek"
+              minValue={1}
+              maxValue={7}
+              step={1}
+              validate={(value) => {
+                if (!value) {
+                  return "Choose how many days you will take classes.";
+                }
+                if (value < 1 || value > 7) {
+                  return "Choose between 1 and 7 days per week.";
+                }
+
+                return null;
+              }}
+            >
+              <Label>Days per week</Label>
+              <NumberField.Group>
+                <NumberField.DecrementButton aria-label="Decrease days per week" />
+                <NumberField.Input placeholder="e.g. 3" />
+                <NumberField.IncrementButton aria-label="Increase days per week" />
+              </NumberField.Group>
+              <FieldError />
+            </NumberField>
+          </div>
+
+          <div className="mt-5">
+            {/* Description */}
+            <TextField
+              isRequired
+              fullWidth
+              name="description"
+              className="mt-5"
+              validate={(value) => {
+                const description = value.trim();
+
+                if (!description) {
+                  return "Describe the tuition.";
+                }
+
+                if (description.length < 40) {
+                  return "Write at least 40 characters so students know what to expect.";
+                }
+
+                if (description.length > 800) {
+                  return "Keep the description under 800 characters.";
+                }
+
+                return null;
+              }}
+            >
+              <Label>Descripton</Label>
+              <TextArea
+                rows={6}
+                placeholder="Cover the syllabus, batch size, class timing, and anything students should bring. For example: “Weekly problem-solving classes focused on the HSC physics syllabus, with printed notes and monthly mock tests.”"
+              />
+              <Description>
+                Mention the syllabus, batch size, timings, and any materials.
+              </Description>
+              <FieldError />
+            </TextField>
+          </div>
+
+          <div className="mt-5">
+            <label htmlFor="tuition-banner" className="text-sm font-medium">
+              Banner image
+            </label>
+
+            <input
+              ref={fileInputRef}
+              id="tuition-banner"
+              type="file"
+              accept="image/png,image/jpeg,image/webp"
+              tabIndex={-1}
+              className="sr-only"
+              onChange={handleBannerChange}
+            />
+
+            {banner ? (
+              <div className="mt-2 space-y-3">
+                <div className="relative aspect-16/7 w-full overflow-hidden rounded-2xl bg-[#e7f4ef] ring-1 ring-black/5">
+                  <Image
+                    src={banner.url}
+                    alt="Selected banner preview"
+                    fill
+                    unoptimized
+                    sizes="(max-width: 1024px) 100vw, 768px"
+                    className="object-cover"
+                  />
+                </div>
+
+                <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-black/5 bg-[#f4f9f7] px-3 py-2.5">
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-semibold text-[#04382f]">
+                      {banner.file.name}
+                    </p>
+                    <p className="text-[11px] text-neutral-500">
+                      {formatFileSize(banner.file.size)} · Ready to upload
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <Button
+                      ref={uploadButtonRef}
+                      type="button"
+                      size="sm"
+                      variant="secondary"
+                      onPress={openFilePicker}
+                    >
+                      <Pencil aria-hidden="true" className="h-3.5 w-3.5" />
+                      Replace
+                    </Button>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="danger-soft"
+                      onPress={clearBanner}
+                    >
+                      <TrashBin aria-hidden="true" className="h-3.5 w-3.5" />
+                      Remove
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <button
+                ref={uploadButtonRef}
+                type="button"
+                onClick={openFilePicker}
+                className="mt-2 flex w-full flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-[#04382f]/15 bg-[#e7f4ef]/45 px-4 py-10 text-center transition hover:border-[#075144]/40 hover:bg-[#e7f4ef] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#075144]"
+              >
+                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-[#075144] shadow-sm">
+                  <CloudArrowUpIn aria-hidden="true" className="h-6 w-6" />
+                </span>
+                <span className="text-sm font-semibold text-[#04382f]">
+                  Upload a banner image
+                </span>
+                <span className="text-xs text-neutral-500">
+                  PNG, JPG, or WebP · up to 5 MB
+                </span>
+              </button>
+            )}
+
+            {bannerError && (
+              <p role="alert" className="mt-2 text-xs font-medium text-danger">
+                {bannerError}
+              </p>
+            )}
+          </div>
+
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center mt-6">
+            <Link
+              href="/dashboard/tutor"
+              className="inline-flex h-10 items-center justify-center rounded-xl px-4 text-sm font-semibold text-neutral-500 transition hover:bg-neutral-100 hover:text-[#04382f] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#075144]"
+            >
+              Cancel
+            </Link>
+            <Button
+              type="submit"
+              className="w-full bg-[#04382f] text-white shadow-[0_18px_30px_-22px_rgba(4,56,47,0.9)] hover:bg-[#075144] sm:w-auto"
+            >
+              Post tuition
+            </Button>
+          </div>
+        </Surface>
+      </Form>
+    </div>
+  );
+}

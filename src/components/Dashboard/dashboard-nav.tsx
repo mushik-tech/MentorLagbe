@@ -59,7 +59,7 @@ export const roleNav: Record<DashboardRole, DashboardNavItem[]> = {
     },
     {
       label: "Post a Tuition",
-      href: " /dashboard/tutor/post-tuition",
+      href: "/dashboard/tutor/post-tuition",
       description: "Create and manage the batches you are currently teaching.",
       icon: Layers,
     },
