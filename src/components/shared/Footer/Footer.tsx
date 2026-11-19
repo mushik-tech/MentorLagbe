@@ -150,7 +150,7 @@ export default function Footer() {
           <nav aria-labelledby="footer-explore">
             <h3
               id="footer-explore"
-              className="font-display text-sm font-semibold tracking-wide text-white"
+              className=" text-sm font-semibold tracking-wide text-white"
             >
               Explore
             </h3>
@@ -172,7 +172,7 @@ export default function Footer() {
           <nav aria-labelledby="footer-account">
             <h3
               id="footer-account"
-              className="font-display text-sm font-semibold tracking-wide text-white"
+              className=" text-sm font-semibold tracking-wide text-white"
             >
               Account
             </h3>
@@ -192,7 +192,7 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h3 className="font-display text-sm font-semibold tracking-wide text-white">
+            <h3 className=" text-sm font-semibold tracking-wide text-white">
               Get in touch
             </h3>
             <ul className="mt-4 space-y-3 text-sm">

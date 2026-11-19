@@ -26,7 +26,7 @@ export default function Hero() {
 
           <h1
             id="hero-heading"
-            className="font-display mt-5 text-[2.2rem] font-extrabold leading-[1.1] tracking-[-0.02em] text-white sm:text-[2.7rem] lg:text-[2.3rem] xl:text-[2.8rem]"
+            className=" mt-5 text-[2.2rem] font-extrabold leading-[1.1] tracking-[-0.02em] text-white sm:text-[2.7rem] lg:text-[2.3rem] xl:text-[2.8rem]"
           >
             Accelerate Your Success with
             <span className="mt-0.5 block">

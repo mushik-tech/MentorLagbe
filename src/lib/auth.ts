@@ -22,6 +22,11 @@ export const auth = betterAuth({
         input: true,
         defaultValue: "student",
       },
+      subscriptionPlan: {
+        type: ["pro", "free"],
+        defaultValue: "free",
+        input: false,
+      },
     },
   },
   database: mongodbAdapter(db, {
