@@ -1,5 +1,6 @@
 "use client";
 
+import { signUp } from "@/lib/auth-client";
 import {
   Button,
   Description,
@@ -9,25 +10,48 @@ import {
   Input,
   Label,
   TextField,
+  toast,
 } from "@heroui/react";
 import { Radio, RadioGroup } from "@heroui/react";
+import { useRouter } from "next/navigation";
 
 import React from "react";
 
 const SignupForm = () => {
+  const router = useRouter();
 
-
-  const onSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const data: Record<string, string> = {};
-    // Convert FormData to plain object
-    formData.forEach((value, key) => {
-      data[key] = value.toString();
+
+    const userInfo = Object.fromEntries(formData.entries()) as {
+      name: string;
+      email: string;
+      password: string;
+      role: "student" | "tutor";
+    };
+
+    console.log("User Info:", userInfo);
+
+    const { data, error } = await signUp.email({
+      name: userInfo.name,
+      email: userInfo.email,
+      password: userInfo.password,
+      //   image: "https://example.com/image.png",
+      callbackURL: "/",
     });
-    alert("Form submitted successfully!");
+
+    if (error) {
+      toast.danger(`Signup failed: ${error.message}`);
+      return;
+    }
+
+    console.log("Signup successful:", { data, error });
+
+    toast.success("Accout creation successful");
+    router.push("/");
   };
-  
+
   return (
     <Form onSubmit={onSubmit}>
       <Fieldset className="w-full">
@@ -96,6 +120,7 @@ const SignupForm = () => {
               defaultValue="student"
               name="role"
               orientation="horizontal"
+              aria-label="Select your role"
             >
               <Radio value="student" className="border rounded-lg p-4 flex-1">
                 <Radio.Content>

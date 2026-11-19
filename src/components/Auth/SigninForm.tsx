@@ -9,19 +9,37 @@ import {
   Input,
   Label,
   TextField,
+  toast,
 } from "@heroui/react";
+import { signIn } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 const SigninForm = () => {
-  const onSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+  const router = useRouter();
+
+  const onSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
-    const data: Record<string, string> = {};
-    // Convert FormData to plain object
-    formData.forEach((value, key) => {
-      data[key] = value.toString();
+    const userInfo = Object.fromEntries(formData.entries()) as {
+      email: string;
+      password: string;
+    };
+
+    const { data, error } = await signIn.email({
+      email: userInfo.email,
+      password: userInfo.password,
+      rememberMe: true,
+      callbackURL: "/",
     });
-    alert("Form submitted successfully!");
+
+    if (error) {
+      toast.danger(`Signin failed: ${error.message}`);
+      return;
+    }
+
+    console.log("Signup successful:", { data, error });
+    toast.success("Signin successful");
   };
   return (
     <Form onSubmit={onSubmit}>

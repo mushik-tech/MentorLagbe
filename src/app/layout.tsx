@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Josefin_Sans, Poppins } from "next/font/google";
 import "./globals.css";
+import { Toast } from "@heroui/react";
 
 const josefinSans = Josefin_Sans({
   variable: "--font-josefin-sans",
@@ -24,7 +25,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${josefinSans.className} ${poppins.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+
+        <Toast.Provider placement="top" />
+      </body>
     </html>
   );
 }
