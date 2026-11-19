@@ -213,7 +213,7 @@ export default function TopSubjects() {
         <dl className="mt-10 grid grid-cols-2 gap-x-6 gap-y-8 rounded-3xl bg-[#075144] bg-[radial-gradient(120%_140%_at_15%_0%,rgba(44,155,128,0.45)_0%,transparent_55%)] px-6 py-8 text-white md:grid-cols-4 lg:mt-12 lg:gap-x-10 lg:px-10 lg:py-10">
           {stats.map((stat) => (
             <div key={stat.label} className="flex flex-col-reverse gap-1">
-              <dt className="text-[10px] font-medium uppercase tracking-[0.1em] text-white/65 lg:text-[11px] lg:tracking-[0.12em]">
+              <dt className="text-[10px] font-medium uppercase tracking-widest text-white/65 lg:text-[11px] lg:tracking-[0.12em]">
                 {stat.label}
               </dt>
               <dd className=" text-3xl font-extrabold tracking-tight lg:text-4xl">

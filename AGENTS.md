@@ -40,7 +40,7 @@ No test runner, formatter, CI, or deploy config exists. Verify with lint + typeg
 ## Styling
 
 - Tailwind v4 is CSS-first: no `tailwind.config.*`. `src/app/globals.css` only imports `tailwindcss` and `@heroui/styles`.
-- `font-display` maps to Poppins through `@theme inline` in `globals.css` (Poppins is loaded in the root layout). Body text remains Josefin Sans.
+- ``maps to Poppins through`@theme inline`in`globals.css` (Poppins is loaded in the root layout). Body text remains Josefin Sans.
 - CSS is compiled by the `*.css` Turbopack loader rule in `next.config.ts` (`@tailwindcss/turbopack`). Do not add `postcss.config.*`, switch to `@tailwindcss/postcss`, or remove that rule — the standard Next/Tailwind setup from the docs does not apply here.
 - Prefer HeroUI semantic utilities (`bg-background`, `border-separator`, `text-primary`) over raw palette colors so styling follows HeroUI's theme.
 

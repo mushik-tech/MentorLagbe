@@ -37,6 +37,7 @@ const SignupForm = () => {
       name: userInfo.name,
       email: userInfo.email,
       password: userInfo.password,
+      role: userInfo.role,
       //   image: "https://example.com/image.png",
       callbackURL: "/",
     });

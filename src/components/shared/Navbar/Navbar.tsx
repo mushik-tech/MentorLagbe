@@ -29,7 +29,9 @@ const Navbar = () => {
       </li>
       {session?.user ? (
         <li>
-          <NavLinks href="dashboard">Dashboard</NavLinks>
+          <NavLinks href={`dashboard/${session?.user.role}`}>
+            Dashboard
+          </NavLinks>
         </li>
       ) : (
         ""
@@ -116,7 +118,9 @@ const Navbar = () => {
                         </div>
                       </Popover.Heading>
                       <div className="flex flex-col gap-2 py-4">
-                        <Link href={"dashboard"}>Dashboard</Link>
+                        <Link href={`dashboard/${session?.user.role}`}>
+                          Dashboard
+                        </Link>
                         <Link href={"/update-profile"}>Update Profile</Link>
                       </div>
                     </Popover.Dialog>

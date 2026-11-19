@@ -109,13 +109,12 @@ export default function Footer() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1.25fr] lg:gap-8">
           {/* Brand */}
           <div className="max-w-sm">
-            <Link
-              href="/"
+            <div
               aria-label="MentorLagbe home"
               className="inline-flex rounded-2xl bg-white px-3.5 py-2 shadow-[0_18px_40px_-22px_rgba(0,0,0,0.8)] transition hover:-translate-y-0.5 [&_img]:h-9 [&_img]:w-auto sm:[&_img]:h-11"
             >
               <Logo />
-            </Link>
+            </div>
 
             <p className="mt-5 text-sm leading-relaxed text-white/70">
               Connecting learners with verified mentors for one-on-one guidance
