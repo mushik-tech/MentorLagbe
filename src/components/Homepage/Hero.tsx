@@ -11,31 +11,15 @@ export default function Hero() {
         aria-hidden="true"
         className="absolute inset-0 bg-[linear-gradient(90deg,#8ac9ba_0%,#5aa998_10%,#176a57_24%,#075144_48%,#075144_68%,#1f7f6b_84%,#7fc1b3_100%)]"
       />
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 opacity-40 [background-image:repeating-linear-gradient(90deg,rgba(255,255,255,0.08)_0px,rgba(255,255,255,0.08)_1px,transparent_1px,transparent_160px)]"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 opacity-30 [background-image:repeating-linear-gradient(90deg,rgba(255,255,255,0.07)_0px,rgba(255,255,255,0.07)_90px,transparent_90px,transparent_170px)]"
-      />
+
       <div
         aria-hidden="true"
         className="absolute inset-0 bg-[radial-gradient(95%_125%_at_58%_38%,transparent_28%,rgba(3,58,49,0.38)_100%)]"
       />
 
-      {/* Soft blurred sparkle, bottom left */}
-      <svg
-        aria-hidden="true"
-        viewBox="0 0 48 48"
-        className="absolute bottom-8 left-4 z-0 h-10 w-10 rotate-12 fill-[#f4d21f] opacity-60 blur-[2px] sm:left-8 sm:h-12 sm:w-12"
-      >
-        <path d="M24 0c2 13 9 20 24 24-15 4-22 11-24 24-2-13-9-20-24-24C15 20 22 13 24 0Z" />
-      </svg>
-
       <div className="relative mx-auto grid w-full max-w-7xl gap-8 px-6 pt-14 sm:px-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-end lg:gap-4 lg:px-10 lg:pt-16">
         {/* Copy and search */}
-        <div className="relative z-20 min-w-0 max-w-[660px] pb-10 sm:pb-12 lg:pb-8">
+        <div className="relative z-20 min-w-0 max-w-165 pb-10 sm:pb-12 lg:pb-8">
           <span className="inline-flex items-center rounded-full bg-white/10 px-4 py-1.5 text-[13px] font-medium tracking-wide text-emerald-50 ring-1 ring-white/15 backdrop-blur-sm">
             Top Rated Mentors From Around the World
           </span>
@@ -48,7 +32,7 @@ export default function Hero() {
             <span className="mt-0.5 block">
               Expert{" "}
               <span className="relative inline-block">
-                <span className="bg-gradient-to-r from-[#8fd14f] via-[#b7d94a] to-[#f2da3a] bg-clip-text text-transparent">
+                <span className="bg-linear-to-r from-[#8fd14f] via-[#b7d94a] to-[#f2da3a] bg-clip-text text-transparent">
                   Mentorship
                 </span>
                 <svg
@@ -69,7 +53,7 @@ export default function Hero() {
             </span>
           </h1>
 
-          <p className="mt-5 max-w-[560px] text-[15px] leading-relaxed text-white/85 sm:text-base">
+          <p className="mt-5 max-w-140 text-[15px] leading-relaxed text-white/85 sm:text-base">
             Get one on one guidance from verified mentors across career,
             business, tech, and personal development.
           </p>
@@ -77,7 +61,7 @@ export default function Hero() {
           <form
             action="/tuitions"
             method="get"
-            className="mt-8 flex w-full max-w-[600px] items-center gap-2 rounded-full bg-white p-1.5 pl-5 shadow-[0_22px_50px_-18px_rgba(0,0,0,0.55)] ring-1 ring-black/5 transition focus-within:ring-2 focus-within:ring-[#f4d21f]/70"
+            className="mt-8 flex w-full max-w-150 items-center gap-2 rounded-full bg-white p-1.5 pl-5 shadow-[0_22px_50px_-18px_rgba(0,0,0,0.55)] ring-1 ring-black/5 transition focus-within:ring-2 focus-within:ring-[#f4d21f]/70"
           >
             <svg
               aria-hidden="true"
@@ -118,7 +102,9 @@ export default function Hero() {
                 <option value="career">Career</option>
                 <option value="business">Business</option>
                 <option value="tech">Tech</option>
-                <option value="personal-development">Personal Development</option>
+                <option value="personal-development">
+                  Personal Development
+                </option>
                 <option value="academic">Academic</option>
               </select>
               <svg
@@ -169,15 +155,15 @@ export default function Hero() {
               className="h-9 w-auto shrink-0 sm:h-10"
             />
             <p className="text-[13px] text-neutral-700 sm:whitespace-nowrap sm:text-sm">
-              Trusted by <span className="font-bold text-neutral-900">10K+</span>{" "}
-              Learners
+              Trusted by{" "}
+              <span className="font-bold text-neutral-900">10K+</span> Learners
             </p>
           </div>
         </div>
 
         {/* Portrait and floating accents */}
-        <div className="relative z-10 mx-auto h-[400px] w-full min-w-0 max-w-[480px] sm:h-[520px] lg:h-[580px] lg:max-w-none">
-          <div className="relative mx-auto h-full w-full max-w-[420px] lg:w-[400px]">
+        <div className="relative z-10 mx-auto h-100 w-full min-w-0 max-w-100 sm:h-130 lg:h-145 lg:max-w-none">
+          <div className="relative mx-auto h-full w-full max-w-105 lg:w-100">
             <div
               aria-hidden="true"
               className="absolute -bottom-12 left-0 top-[12%] w-[72%] -rotate-5 rounded-[42px] bg-[#2c9b80]"
@@ -197,7 +183,7 @@ export default function Hero() {
 
             <div className="absolute inset-x-0 bottom-0 top-4 z-10">
               <Image
-                src="https://i.ibb.co.com/qMmTcPc2/portrait-female-teacher-holding-yellow-document-happy-green-removebg-preview.png"
+                src="/banner-img-1.png"
                 alt="Mentor smiling while holding a notebook"
                 fill
                 priority
@@ -219,11 +205,18 @@ export default function Hero() {
                   strokeWidth="1.9"
                 >
                   <rect x="9" y="3" width="6" height="11" rx="3" />
-                  <path d="M5 11a7 7 0 0 0 14 0M12 18v3" strokeLinecap="round" />
+                  <path
+                    d="M5 11a7 7 0 0 0 14 0M12 18v3"
+                    strokeLinecap="round"
+                  />
                 </svg>
               </span>
               <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#e63a2e] text-white">
-                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
+                <svg
+                  viewBox="0 0 24 24"
+                  className="h-5 w-5"
+                  fill="currentColor"
+                >
                   <path d="M6.6 3.6a1.7 1.7 0 0 1 2.4.3l1.6 2.2a1.7 1.7 0 0 1-.2 2.2l-.7.7a12.7 12.7 0 0 0 5.3 5.3l.7-.7a1.7 1.7 0 0 1 2.2-.2l2.2 1.6a1.7 1.7 0 0 1 .3 2.4l-1.2 1.5c-.8.9-2 1.3-3.1 1C11.3 18.9 5.1 12.7 4 7.8c-.3-1.1.1-2.3 1-3.1l1.6-1.1Z" />
                 </svg>
               </span>

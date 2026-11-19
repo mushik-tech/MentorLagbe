@@ -1,10 +1,12 @@
+import Footer from "@/components/shared/Footer/Footer";
 import Navbar from "@/components/shared/Navbar/Navbar";
 
 export default function HomeLayout({ children }: LayoutProps<"/">) {
   return (
     <>
       <Navbar />
-      {children}
+      <main className="flex-1">{children}</main>
+      <Footer />
     </>
   );
 }
