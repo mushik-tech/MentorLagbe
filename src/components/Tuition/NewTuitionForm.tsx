@@ -19,6 +19,8 @@ import {
   toast,
 } from "@heroui/react";
 import { CloudArrowUpIn, Pencil, TrashBin } from "@gravity-ui/icons";
+import { useSession } from "@/lib/auth-client";
+import { postTution } from "@/lib/actions/tutions";
 
 const MAX_BANNER_BYTES = 5 * 1024 * 1024;
 const ACCEPTED_BANNER_TYPES = ["image/jpeg", "image/png", "image/webp"];
@@ -36,7 +38,6 @@ const classLevels = [
 const modes = [
   { id: "online", label: "Online" },
   { id: "offline", label: "Offline (in person)" },
-  { id: "hybrid", label: "Hybrid" },
 ];
 
 const fieldSurface =
@@ -50,6 +51,8 @@ export default function NewTuitionForm() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const uploadButtonRef = useRef<HTMLButtonElement>(null);
   const bannerUrlRef = useRef<string | null>(null);
+
+  const { data: session } = useSession();
 
   const [banner, setBanner] = useState<{ file: File; url: string } | null>(
     null,
@@ -123,7 +126,7 @@ export default function NewTuitionForm() {
     setBannerError(null);
   };
 
-  const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const form = event.currentTarget;
@@ -136,10 +139,28 @@ export default function NewTuitionForm() {
       return;
     }
 
-    const tutionData = Object.fromEntries(formData.entries());
-    tutionData.banner = banner.url
+    const tutionData = Object.fromEntries(formData.entries()) as {
+      title: string;
+      subject: string;
+      classLevel: string;
+      mode: "online" | "offline";
+      location: string;
+      monthlyFee: string;
+      daysPerWeek: string;
+      description: string;
+      banner: string;
+      tutorEmail: string;
+    };
+    tutionData.banner = banner.url;
+    tutionData.tutorEmail = session?.user?.email as string;
 
-    console.log(tutionData);
+    const data = await postTution(tutionData);
+
+    if (data.insertedId) {
+      toast.success("Tuition posted successfully!");
+      form.reset();
+      setBanner(null);
+    }
   };
 
   return (
@@ -215,6 +236,7 @@ export default function NewTuitionForm() {
               <FieldError />
             </TextField>
 
+            {/* ClassLevel */}
             <Select
               isRequired
               fullWidth
@@ -243,6 +265,7 @@ export default function NewTuitionForm() {
               <FieldError />
             </Select>
 
+            {/* Mode */}
             <Select
               isRequired
               fullWidth
@@ -397,6 +420,7 @@ export default function NewTuitionForm() {
             </TextField>
           </div>
 
+          {/* Banner Image */}
           <div className="mt-5">
             <label htmlFor="tuition-banner" className="text-sm font-medium">
               Banner image
@@ -483,6 +507,8 @@ export default function NewTuitionForm() {
               </p>
             )}
           </div>
+
+          {/* Form Actions */}
 
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center mt-6">
             <Link
