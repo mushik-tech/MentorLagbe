@@ -26,3 +26,27 @@ export const updateTuitionStatus = async (id: string, status: TStatus) => {
   );
   return res.json();
 };
+
+export const updateActiveStatus = async (id: string, isActive: boolean) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/tuitions/${id}/active`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ isActive }),
+    },
+  );
+  return res.json();
+};
+
+export const deleteTuition = async (id: string) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/tuitions/${id}`,
+    {
+      method: "DELETE",
+    },
+  );
+  return res.json();
+};
