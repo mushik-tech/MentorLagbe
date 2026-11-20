@@ -13,6 +13,7 @@ import {
   ListBox,
   NumberField,
   Select,
+  Spinner,
   Surface,
   TextArea,
   TextField,
@@ -21,6 +22,7 @@ import {
 import { CloudArrowUpIn, Pencil, TrashBin } from "@gravity-ui/icons";
 import { useSession } from "@/lib/auth-client";
 import { postTuition } from "@/lib/actions/tuitions";
+import { getTuitionsCount } from "@/lib/api/tuitions";
 
 const MAX_BANNER_BYTES = 5 * 1024 * 1024;
 const ACCEPTED_BANNER_TYPES = ["image/jpeg", "image/png", "image/webp"];
@@ -51,6 +53,8 @@ export default function NewTuitionForm() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const uploadButtonRef = useRef<HTMLButtonElement>(null);
   const bannerUrlRef = useRef<string | null>(null);
+
+  const [loading, setLoading] = useState(false);
 
   const { data: session } = useSession();
 
@@ -104,7 +108,7 @@ export default function NewTuitionForm() {
       return;
     }
 
-    console.log(file);
+    setLoading(true);
 
     const formData = new FormData();
     formData.append("image", file);
@@ -124,42 +128,59 @@ export default function NewTuitionForm() {
 
     setBanner({ file, url });
     setBannerError(null);
+
+    setLoading(false);
   };
 
   const handleSubmit = async (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     const form = event.currentTarget;
-    const formData = new FormData(form);
 
-    if (!banner) {
-      setBannerError("Add a banner image for your tuition.");
-      uploadButtonRef.current?.focus();
-      toast.danger("Your tuition still needs a banner image.");
-      return;
-    }
+    const { count } = await getTuitionsCount(session?.user.email as string);
 
-    const tuitionData = Object.fromEntries(formData.entries()) as {
-      title: string;
-      subject: string;
-      classLevel: string;
-      mode: "online" | "offline";
-      location: string;
-      monthlyFee: string;
-      daysPerWeek: string;
-      description: string;
-      banner: string;
-      tutorEmail: string;
-    };
-    tuitionData.banner = banner.url;
-    tuitionData.tutorEmail = session?.user?.email as string;
+    console.log(count);
 
-    const data = await postTuition(tuitionData);
-
-    if (data.insertedId) {
-      toast.success("Tuition posted successfully!");
+    if (count > 2) {
+      toast.danger(
+        "You’ve reached your 2-tuition limit on the free plan. Please upgrade to continue.",
+      );
       form.reset();
       setBanner(null);
+      return;
+    } else {
+      const formData = new FormData(form);
+
+      if (!banner) {
+        setBannerError("Add a banner image for your tuition.");
+        uploadButtonRef.current?.focus();
+        toast.danger("Your tuition still needs a banner image.");
+        return;
+      }
+
+      const tuitionData = Object.fromEntries(formData.entries()) as {
+        title: string;
+        subject: string;
+        classLevel: string;
+        mode: "online" | "offline";
+        location: string;
+        monthlyFee: string;
+        daysPerWeek: string;
+        description: string;
+        banner: string;
+        tutorName: string;
+        tutorEmail: string;
+      };
+      tuitionData.banner = banner.url;
+      tuitionData.tutorName = session?.user.name as string;
+      tuitionData.tutorEmail = session?.user?.email as string;
+
+      const data = await postTuition(tuitionData);
+
+      if (data.insertedId) {
+        toast.success("Tuition posted successfully!");
+        form.reset();
+        setBanner(null);
+      }
     }
   };
 
@@ -436,7 +457,9 @@ export default function NewTuitionForm() {
               onChange={handleBannerChange}
             />
 
-            {banner ? (
+            {loading ? (
+              <Spinner />
+            ) : banner ? (
               <div className="mt-2 space-y-3">
                 <div className="relative aspect-16/7 w-full overflow-hidden rounded-2xl bg-[#e7f4ef] ring-1 ring-black/5">
                   <Image

@@ -10,6 +10,7 @@ export interface TuitionFormData {
   daysPerWeek: string;
   description: string;
   banner: string;
+  tutorName: string;
   tutorEmail: string;
 }
 
@@ -27,5 +28,5 @@ export interface ITuition {
   tutorEmail: string;
   createdAt: string;
   isActive: boolean;
-  approvalStatus: TStatus
+  approvalStatus: TStatus;
 }

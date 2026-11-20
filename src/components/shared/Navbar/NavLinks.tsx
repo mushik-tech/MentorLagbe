@@ -12,6 +12,8 @@ const NavLinks = ({ href, children }: NavLinksProps) => {
 
   const isActive = pathname === href;
 
+  // console.log(pathname, href);
+
   return (
     <Link
       href={href}

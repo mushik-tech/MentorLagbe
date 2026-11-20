@@ -19,13 +19,13 @@ const Navbar = () => {
         <NavLinks href="/">Home</NavLinks>
       </li>
       <li>
-        <NavLinks href="tuitions">Browse Tuitions</NavLinks>
+        <NavLinks href="/tuitions">Browse Tuitions</NavLinks>
       </li>
       <li>
-        <NavLinks href="pricing">Pricing</NavLinks>
+        <NavLinks href="/pricing">Pricing</NavLinks>
       </li>
       <li>
-        <NavLinks href="about">About</NavLinks>
+        <NavLinks href="/about">About</NavLinks>
       </li>
       {session?.user ? (
         <li>
