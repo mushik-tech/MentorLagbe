@@ -1,4 +1,6 @@
-export interface TutionFormData {
+export type TStatus = "pending" | "approved" | "rejected";
+
+export interface TuitionFormData {
   title: string;
   subject: string;
   classLevel: string;
@@ -11,7 +13,7 @@ export interface TutionFormData {
   tutorEmail: string;
 }
 
-export interface ITution {
+export interface ITuition {
   _id: string;
   title: string;
   subject: string;
@@ -25,5 +27,5 @@ export interface ITution {
   tutorEmail: string;
   createdAt: string;
   isActive: boolean;
-  approvalStatus: "pending" | "approved" | "rejected";
+  approvalStatus: TStatus
 }

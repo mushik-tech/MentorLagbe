@@ -20,7 +20,7 @@ import {
 } from "@heroui/react";
 import { CloudArrowUpIn, Pencil, TrashBin } from "@gravity-ui/icons";
 import { useSession } from "@/lib/auth-client";
-import { postTution } from "@/lib/actions/tutions";
+import { postTuition } from "@/lib/actions/tuitions";
 
 const MAX_BANNER_BYTES = 5 * 1024 * 1024;
 const ACCEPTED_BANNER_TYPES = ["image/jpeg", "image/png", "image/webp"];
@@ -139,7 +139,7 @@ export default function NewTuitionForm() {
       return;
     }
 
-    const tutionData = Object.fromEntries(formData.entries()) as {
+    const tuitionData = Object.fromEntries(formData.entries()) as {
       title: string;
       subject: string;
       classLevel: string;
@@ -151,10 +151,10 @@ export default function NewTuitionForm() {
       banner: string;
       tutorEmail: string;
     };
-    tutionData.banner = banner.url;
-    tutionData.tutorEmail = session?.user?.email as string;
+    tuitionData.banner = banner.url;
+    tuitionData.tutorEmail = session?.user?.email as string;
 
-    const data = await postTution(tutionData);
+    const data = await postTuition(tuitionData);
 
     if (data.insertedId) {
       toast.success("Tuition posted successfully!");

@@ -1,10 +1,10 @@
 import { Books } from "@gravity-ui/icons";
 import { Card, Chip, EmptyState, Surface } from "@heroui/react";
 import TuitionTable from "@/components/Admin/TuitionTable";
-import { getTutions } from "@/lib/api/tutions";
+import { getTuitions } from "@/lib/api/tuitions";
 
-const ManageTutionsPage = async () => {
-  const tutions = await getTutions();
+const ManageTuitionsPage = async () => {
+  const tuitions = await getTuitions();
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
@@ -19,12 +19,12 @@ const ManageTutionsPage = async () => {
         </div>
 
         <Chip size="lg" variant="soft" color="accent">
-          {tutions.length} {tutions.length === 1 ? "listing" : "listings"}
+          {tuitions.length} {tuitions.length === 1 ? "listing" : "listings"}
         </Chip>
       </div>
 
-      {tutions.length > 0 ? (
-        <TuitionTable tuitions={tutions} />
+      {tuitions.length > 0 ? (
+        <TuitionTable tuitions={tuitions} />
       ) : (
         <Surface className="rounded-3xl border border-black/5 bg-white shadow-[0_30px_70px_-60px_rgba(4,56,47,0.7)]">
           <EmptyState className="flex flex-col items-center gap-3 px-6 py-16 text-center">
@@ -46,4 +46,4 @@ const ManageTutionsPage = async () => {
   );
 };
 
-export default ManageTutionsPage;
+export default ManageTuitionsPage;

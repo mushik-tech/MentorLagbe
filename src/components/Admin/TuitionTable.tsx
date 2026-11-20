@@ -1,9 +1,11 @@
 import Image from "next/image";
 import { Button, Chip, Table } from "@heroui/react";
-import type { ITution } from "@/types/tutions";
+import { ITuition } from "@/types/tuitions";
+import TuitionTableRowAction from "@/components/Admin/TuitionTableRowAction";
+
 
 type TuitionTableProps = {
-  tuitions: ITution[];
+  tuitions: ITuition[];
 };
 
 type StatusMeta = {
@@ -139,20 +141,9 @@ export default function TuitionTable({ tuitions }: TuitionTableProps) {
 
                   <Table.Cell>
                     <div className="flex items-center justify-end gap-2">
-                      <Button
-                        size="sm"
-                        variant="secondary"
-                        aria-label={`Approve ${tuition.title}`}
-                      >
-                        Approve
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="danger"
-                        aria-label={`Reject ${tuition.title}`}
-                      >
-                        Reject
-                      </Button>
+                      <TuitionTableRowAction
+                        tuition={tuition}
+                      ></TuitionTableRowAction>
                     </div>
                   </Table.Cell>
                 </Table.Row>
