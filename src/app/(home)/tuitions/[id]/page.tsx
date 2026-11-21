@@ -277,7 +277,7 @@ const TuitionDetailsPage = async ({ params }: PageProps<"/tuitions/[id]">) => {
 
               {/* Apply Button */}
               <div className="mt-5 border-t border-neutral-100 pt-5">
-                <ApplyButton tuitionTitle={tuition.title} />
+                <ApplyButton tuition={tuition} />
               </div>
             </div>
 

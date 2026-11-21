@@ -1,21 +1,63 @@
 "use client";
 
 import { useState } from "react";
-import { AlertDialog, Button, toast } from "@heroui/react";
-import { CircleCheck, PaperPlane } from "@gravity-ui/icons";
+import {
+  Button,
+  Input,
+  Label,
+  TextArea,
+  TextField,
+  TimeField,
+  toast,
+} from "@heroui/react";
+import { CircleCheck, Clock, PaperPlane } from "@gravity-ui/icons";
 import { useSession } from "@/lib/auth-client";
+import { ITuition } from "@/types/tuitions";
+import { Envelope } from "@gravity-ui/icons";
+import { Modal, Surface } from "@heroui/react";
+import { postApplication } from "@/lib/actions/applications";
 
 type ApplyButtonProps = {
-  tuitionTitle: string;
+  tuition: ITuition;
 };
 
-export default function ApplyButton({ tuitionTitle }: ApplyButtonProps) {
+export default function ApplyButton({ tuition }: ApplyButtonProps) {
   const [hasApplied, setHasApplied] = useState(false);
 
   const { data: session } = useSession();
 
-  if (session?.user.role !== "student") {
-  }
+  const onSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const info = Object.fromEntries(formData.entries()) as {
+      preferredSchedule: string;
+      studentNote: string;
+      studentPhone: string;
+    };
+    const applicationInfo = {
+      ...info,
+      tuitionId: tuition._id,
+      tuitionTitle: tuition.title,
+      subject: tuition.subject,
+      monthlyFee: tuition.monthlyFee,
+      tutorEmail: tuition.tutorEmail,
+      studentName: session?.user.name as string,
+      studentEmail: session?.user.email as string,
+    };
+
+    const data = await postApplication(applicationInfo);
+
+    if (data.insertedId) {
+      setHasApplied(true);
+      toast.success("Application sent successfully");
+    } else {
+      setHasApplied(true);
+      toast.danger("Already applied this tuition");
+    }
+    
+  };
 
   if (hasApplied) {
     return (
@@ -29,51 +71,73 @@ export default function ApplyButton({ tuitionTitle }: ApplyButtonProps) {
     );
   }
 
-  return (
-    <AlertDialog>
-      <Button
-        variant="primary"
-        size="lg"
-        fullWidth
-        isDisabled={session?.user.role !== "student"}
+  if (session?.user.role !== "student") {
+    return (
+      <div
+        role="status"
+        className="flex items-center justify-center gap-2 rounded-xl bg-[#e7f4ef] px-4 py-3 text-sm font-semibold text-[#075144]"
       >
-        <PaperPlane aria-hidden="true" className="h-4 w-4" />
-        {session?.user.role === "student" ? "Apply for this tuition" : "Sorry, Only Student can apply"}
-      </Button>
+        <CircleCheck aria-hidden="true" className="h-4 w-4" />
+        Sorry, Only Student can apply
+      </div>
+    );
+  }
 
-      <AlertDialog.Backdrop>
-        <AlertDialog.Container>
-          <AlertDialog.Dialog className="sm:max-w-110">
-            <AlertDialog.CloseTrigger />
-            <AlertDialog.Header>
-              <AlertDialog.Icon status="accent" />
-              <AlertDialog.Heading>Send your application?</AlertDialog.Heading>
-            </AlertDialog.Header>
-            <AlertDialog.Body>
-              <p>
-                You are about to apply for <strong>{tuitionTitle}</strong>. The
-                tuition poster will see your profile and can reach out to you
-                with the next steps.
-              </p>
-            </AlertDialog.Body>
-            <AlertDialog.Footer>
-              <Button slot="close" variant="tertiary">
-                Cancel
-              </Button>
-              <Button
-                slot="close"
-                variant="primary"
-                onClick={() => {
-                  setHasApplied(true);
-                  toast.success("Application sent successfully");
-                }}
-              >
-                Send application
-              </Button>
-            </AlertDialog.Footer>
-          </AlertDialog.Dialog>
-        </AlertDialog.Container>
-      </AlertDialog.Backdrop>
-    </AlertDialog>
+  return (
+    <Modal>
+      <Button variant="primary" size="lg" fullWidth>
+        <PaperPlane aria-hidden="true" className="h-4 w-4" />
+        Apply for this tuition
+      </Button>
+      <Modal.Backdrop>
+        <Modal.Container placement="auto">
+          <Modal.Dialog className="sm:max-w-md">
+            <Modal.CloseTrigger />
+            <Modal.Header>
+              <Modal.Icon className="bg-accent-soft text-accent-soft-foreground">
+                <Envelope className="size-5" />
+              </Modal.Icon>
+              <Modal.Heading>Send your application?</Modal.Heading>
+            </Modal.Header>
+            <Modal.Body className="py-6">
+              <Surface variant="default">
+                <form className="flex flex-col gap-4" onSubmit={onSubmit}>
+                  <TextField isRequired name="studentPhone" type="tel">
+                    <Label>Phone Number</Label>
+                    <Input placeholder="+880 1645-743205" />
+                  </TextField>
+                  <TimeField isRequired name="preferredSchedule">
+                    <Label>Preferred Schedule</Label>
+                    <TimeField.Group>
+                      <TimeField.Input>
+                        {(segment) => <TimeField.Segment segment={segment} />}
+                      </TimeField.Input>
+                      <TimeField.Suffix>
+                        <Clock className="size-4 text-muted" />
+                      </TimeField.Suffix>
+                    </TimeField.Group>
+                  </TimeField>
+
+                  <TextField isRequired name="studentNote">
+                    <Label>Learning Note</Label>
+                    <TextArea placeholder="Drop your learning queries" />
+                  </TextField>
+
+                  <div className="flex gap-4">
+                    <Button slot="close" variant="tertiary">
+                      Cancel
+                    </Button>
+
+                    <Button type="submit" variant="primary">
+                      Send application
+                    </Button>
+                  </div>
+                </form>
+              </Surface>
+            </Modal.Body>
+          </Modal.Dialog>
+        </Modal.Container>
+      </Modal.Backdrop>
+    </Modal>
   );
 }

@@ -6,12 +6,14 @@ import { Avatar, Button, Popover, Spinner } from "@heroui/react";
 import Link from "next/link";
 import NavLinks from "@/components/shared/Navbar/NavLinks";
 import Logo from "@/components/shared/Logo/Logo";
-import { useSession } from "@/lib/auth-client";
+import { signOut, useSession } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const { data: session, isPending } = useSession();
+  const router = useRouter();
 
   const navLinks = (
     <>
@@ -127,7 +129,14 @@ const Navbar = () => {
                   </Popover.Content>
                 </Popover>
               </div>
-              <Button>Sign out</Button>
+              <Button
+                onClick={async () => {
+                  await signOut();
+                  router.refresh();
+                }}
+              >
+                Sign out
+              </Button>
             </>
           ) : (
             <>
