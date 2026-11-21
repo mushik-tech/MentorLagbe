@@ -1,10 +1,6 @@
-export interface IUserSummary {
-  name: string;
-  email: string;
-  role: string;
-}
+import { IUser } from "@/types/users";
 
-export const getUsers = async (): Promise<IUserSummary[]> => {
+export const getUsers = async (): Promise<IUser[]> => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users`);
 
   return res.json();
