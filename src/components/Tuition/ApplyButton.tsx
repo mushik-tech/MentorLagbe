@@ -16,6 +16,8 @@ import { ITuition } from "@/types/tuitions";
 import { Envelope } from "@gravity-ui/icons";
 import { Modal, Surface } from "@heroui/react";
 import { postApplication } from "@/lib/actions/applications";
+import { getApplicationsCount } from "@/lib/api/applications";
+import { useRouter } from "next/navigation";
 
 type ApplyButtonProps = {
   tuition: ITuition;
@@ -25,6 +27,7 @@ export default function ApplyButton({ tuition }: ApplyButtonProps) {
   const [hasApplied, setHasApplied] = useState(false);
 
   const { data: session } = useSession();
+  const router = useRouter();
 
   const onSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -36,26 +39,37 @@ export default function ApplyButton({ tuition }: ApplyButtonProps) {
       studentNote: string;
       studentPhone: string;
     };
-    const applicationInfo = {
-      ...info,
-      tuitionId: tuition._id,
-      tuitionTitle: tuition.title,
-      subject: tuition.subject,
-      monthlyFee: tuition.monthlyFee,
-      tutorName: tuition.tutorName,
-      tutorEmail: tuition.tutorEmail,
-      studentName: session?.user.name as string,
-      studentEmail: session?.user.email as string,
-    };
 
-    const data = await postApplication(applicationInfo);
+    const { count } = await getApplicationsCount(session?.user.email as string);
 
-    if (data.insertedId) {
-      setHasApplied(true);
-      toast.success("Application sent successfully");
+    if (count > 5 && session?.user.subscriptionPlan !== "pro") {
+      toast.danger(
+        "You’ve reached your 2-tuition limit on the free plan. Please upgrade to continue.",
+      );
+      router.push(`/payments`);
+      return;
     } else {
-      setHasApplied(true);
-      toast.danger("Already applied this tuition");
+      const applicationInfo = {
+        ...info,
+        tuitionId: tuition._id,
+        tuitionTitle: tuition.title,
+        subject: tuition.subject,
+        monthlyFee: tuition.monthlyFee,
+        tutorName: tuition.tutorName,
+        tutorEmail: tuition.tutorEmail,
+        studentName: session?.user.name as string,
+        studentEmail: session?.user.email as string,
+      };
+
+      const data = await postApplication(applicationInfo);
+
+      if (data.insertedId) {
+        setHasApplied(true);
+        toast.success("Application sent successfully");
+      } else {
+        setHasApplied(true);
+        toast.danger("Already applied this tuition");
+      }
     }
   };
 

@@ -28,14 +28,6 @@ const BrowseTuitionsPage = async ({
     isPublic,
   );
 
-  const subjects = Array.from(
-    new Set(
-      (Array.isArray(subjectPool) ? subjectPool : [])
-        .filter(isPublic)
-        .map((tuition) => tuition.subject)
-        .filter(Boolean),
-    ),
-  ).sort((a, b) => a.localeCompare(b));
 
   return (
     <section className="bg-[#f6f8f6] pb-16 pt-6 sm:pt-8 lg:pb-20">
@@ -69,7 +61,7 @@ const BrowseTuitionsPage = async ({
             </div>
 
             <div className="mt-5 grid items-start gap-5 lg:grid-cols-12 lg:gap-6">
-              <TuitionFilters subjects={subjects} />
+              <TuitionFilters/>
 
               <div className="min-w-0 lg:col-span-9">
                 {tuitions.length > 0 ? (

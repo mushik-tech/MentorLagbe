@@ -30,11 +30,13 @@ const ACCEPTED_BANNER_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
 const classLevels = [
   { id: "class-1-5", label: "Class 1–5" },
-  { id: "class-6-8", label: "Class 6–8" },
+  { id: "class-6-7", label: "Class 6–7" },
+  { id: "class-8", label: "Class 8 (JSC)" },
   { id: "ssc", label: "Class 9–10 (SSC)" },
   { id: "hsc", label: "Class 11–12 (HSC)" },
   { id: "admission", label: "Admission test" },
   { id: "undergraduate", label: "Undergraduate" },
+  { id: "o-level", label: "O Level" },
   { id: "other", label: "Other" },
 ];
 
