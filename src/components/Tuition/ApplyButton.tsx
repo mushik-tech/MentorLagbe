@@ -42,6 +42,7 @@ export default function ApplyButton({ tuition }: ApplyButtonProps) {
       tuitionTitle: tuition.title,
       subject: tuition.subject,
       monthlyFee: tuition.monthlyFee,
+      tutorName: tuition.tutorName,
       tutorEmail: tuition.tutorEmail,
       studentName: session?.user.name as string,
       studentEmail: session?.user.email as string,
@@ -56,7 +57,6 @@ export default function ApplyButton({ tuition }: ApplyButtonProps) {
       setHasApplied(true);
       toast.danger("Already applied this tuition");
     }
-    
   };
 
   if (hasApplied) {

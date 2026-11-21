@@ -31,7 +31,7 @@ const Navbar = () => {
       </li>
       {session?.user ? (
         <li>
-          <NavLinks href={`dashboard/${session?.user.role}`}>
+          <NavLinks href={`/dashboard/${session?.user.role}`}>
             Dashboard
           </NavLinks>
         </li>

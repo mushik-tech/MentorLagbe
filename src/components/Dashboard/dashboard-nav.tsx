@@ -44,7 +44,7 @@ export const roleNav: Record<DashboardRole, DashboardNavItem[]> = {
     },
     {
       label: "My Applications",
-      href: "/my-applications",
+      href: "/dashboard/student/my-applications",
       description:
         "Review upcoming sessions and revisit your past applications.",
       icon: Calendar,
@@ -108,8 +108,8 @@ export const roleNav: Record<DashboardRole, DashboardNavItem[]> = {
 
 export const accountNav: DashboardNavItem[] = [
   {
-    label: "Settings",
-    href: "/dashboard/settings",
+    label: "Update Profile",
+    href: "/dashboard/update-profile",
     description: "Update your profile, password, and notification preferences.",
     icon: Gear,
   },

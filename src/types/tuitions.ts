@@ -25,7 +25,7 @@ export interface ITuition {
   daysPerWeek: string;
   description: string;
   banner: string;
-  tutorName?: string;
+  tutorName: string;
   tutorEmail: string;
   createdAt: string;
   isActive: boolean;

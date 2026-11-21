@@ -69,8 +69,8 @@ export default function DashboardShell({
       case "overview":
         router.push(`/dashboard/${role}`);
         break;
-      case "settings":
-        router.push("/dashboard/settings");
+      case "update-profile":
+        router.push("/dashboard/update-profile");
         break;
       case "site":
         router.push("/");
@@ -209,12 +209,15 @@ export default function DashboardShell({
                       />
                       Dashboard overview
                     </Dropdown.Item>
-                    <Dropdown.Item id="settings" textValue="Settings">
+                    <Dropdown.Item
+                      id="update-profile"
+                      textValue="update-profile"
+                    >
                       <Gear
                         aria-hidden="true"
                         className="h-4 w-4 text-neutral-500"
                       />
-                      Settings
+                      Update Profile
                     </Dropdown.Item>
                     <Dropdown.Item id="site" textValue="Homepage">
                       <ArrowUpRight
