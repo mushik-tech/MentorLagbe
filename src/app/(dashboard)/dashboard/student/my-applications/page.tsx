@@ -2,7 +2,7 @@ import { PaperPlane } from "@gravity-ui/icons";
 import { Chip, EmptyState, Surface } from "@heroui/react";
 import MyApplicationsTable from "@/components/Tuition/MyApplicationsTable";
 import { getApplications } from "@/lib/api/applications";
-import { getSession } from "@/lib/session";
+import { getSession } from "@/lib/core/server";
 
 const MyApplicationsPage = async () => {
   const session = await getSession();

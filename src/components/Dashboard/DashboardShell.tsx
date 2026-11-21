@@ -20,23 +20,21 @@ import {
   House,
   LayoutSideContentLeft,
 } from "@gravity-ui/icons";
-import DashboardSidebar, {
-  type DashboardPlan,
-} from "@/components/Dashboard/DashboardSidebar";
+import DashboardSidebar from "@/components/Dashboard/DashboardSidebar";
 import { getNavItem, roleMeta } from "@/components/Dashboard/dashboard-nav";
 import { signOut } from "@/lib/auth-client";
-import { DashboardRole } from "@/lib/session";
 import { getInitials } from "@/utilies/user";
+import { TRole, TSubscriptionPlan } from "@/types/users";
 
 export type DashboardUser = {
   name: string;
   email: string;
   image?: string | null;
-  plan: DashboardPlan;
+  plan: TSubscriptionPlan
 };
 
 type DashboardShellProps = {
-  role: DashboardRole;
+  role: TRole;
   user: DashboardUser;
   children: ReactNode;
 };

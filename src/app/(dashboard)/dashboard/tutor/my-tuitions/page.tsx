@@ -2,7 +2,7 @@ import { Books } from "@gravity-ui/icons";
 import { Chip, EmptyState, Surface } from "@heroui/react";
 import MyTuitionsTable from "@/components/Tuition/MyTuitionsTable";
 import { getTuitions } from "@/lib/api/tuitions";
-import { getSession, requireSession } from "@/lib/session";
+import { getSession } from "@/lib/core/server";
 
 const MyTuitionsPage = async () => {
   const session = await getSession();

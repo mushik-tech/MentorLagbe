@@ -1,4 +1,5 @@
-export type TRole = "student" | "teacher" | "admin";
+export type TRole = "student" | "tutor" | "admin";
+export type TSubscriptionPlan = "free" | "pro";
 
 export interface IUser {
   _id: string;

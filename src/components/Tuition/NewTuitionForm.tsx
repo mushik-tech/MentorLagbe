@@ -23,6 +23,7 @@ import { CloudArrowUpIn, Pencil, TrashBin } from "@gravity-ui/icons";
 import { useSession } from "@/lib/auth-client";
 import { postTuition } from "@/lib/actions/tuitions";
 import { getTuitionsCount } from "@/lib/api/tuitions";
+import { useRouter } from "next/navigation";
 
 const MAX_BANNER_BYTES = 5 * 1024 * 1024;
 const ACCEPTED_BANNER_TYPES = ["image/jpeg", "image/png", "image/webp"];
@@ -57,6 +58,8 @@ export default function NewTuitionForm() {
   const [loading, setLoading] = useState(false);
 
   const { data: session } = useSession();
+
+  const router = useRouter();
 
   const [banner, setBanner] = useState<{ file: File; url: string } | null>(
     null,
@@ -138,14 +141,13 @@ export default function NewTuitionForm() {
 
     const { count } = await getTuitionsCount(session?.user.email as string);
 
-    console.log(count);
-
-    if (count > 2) {
+    if (count > 2 && session?.user.subscriptionPlan !== "pro") {
       toast.danger(
         "You’ve reached your 2-tuition limit on the free plan. Please upgrade to continue.",
       );
       form.reset();
       setBanner(null);
+      router.push(`/payments`);
       return;
     } else {
       const formData = new FormData(form);

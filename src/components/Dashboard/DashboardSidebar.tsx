@@ -16,16 +16,14 @@ import {
   roleNav,
   type DashboardNavItem,
 } from "@/components/Dashboard/dashboard-nav";
-import { DashboardRole } from "@/lib/session";
 import { getInitials } from "@/utilies/user";
-
-export type DashboardPlan = "pro" | "free";
+import { TRole, TSubscriptionPlan } from "@/types/users";
 
 type DashboardSidebarProps = {
-  role: DashboardRole;
+  role: TRole;
   collapsed?: boolean;
   pathname: string;
-  plan: DashboardPlan;
+  plan: TSubscriptionPlan;
   user: {
     name: string;
     email: string;
