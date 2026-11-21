@@ -8,9 +8,19 @@ export const getTuitions = async (query = ""): Promise<ITuition[]> => {
   return res.json();
 };
 
-export const getTuitionsCount = async (email: string) => {
+export const getTuitionsCount = async (
+  email: string,
+): Promise<{ count: number }> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/tuitions/${email}/count`,
+  );
+
+  return res.json();
+};
+
+export const getSingleTuition = async (id: string): Promise<ITuition> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/tuitions/${id}`,
   );
 
   return res.json();
