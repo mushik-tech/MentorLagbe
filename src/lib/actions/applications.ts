@@ -1,7 +1,6 @@
 "use server";
 
 import { IApplicationFormData } from "@/types/applications";
-import { TStatus, TuitionFormData } from "@/types/tuitions";
 
 export const postApplication = async (data: IApplicationFormData) => {
   const res = await fetch(
