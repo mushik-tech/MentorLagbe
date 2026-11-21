@@ -17,7 +17,7 @@ import { Envelope } from "@gravity-ui/icons";
 import { Modal, Surface } from "@heroui/react";
 import { postApplication } from "@/lib/actions/applications";
 import { getApplicationsCount } from "@/lib/api/applications";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 type ApplyButtonProps = {
   tuition: ITuition;
@@ -27,6 +27,7 @@ export default function ApplyButton({ tuition }: ApplyButtonProps) {
   const [hasApplied, setHasApplied] = useState(false);
 
   const { data: session } = useSession();
+  const pathname = usePathname();
   const router = useRouter();
 
   const onSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
@@ -42,9 +43,9 @@ export default function ApplyButton({ tuition }: ApplyButtonProps) {
 
     const { count } = await getApplicationsCount(session?.user.email as string);
 
-    if (count > 5 && session?.user.subscriptionPlan !== "pro") {
+    if (count > 4 && session?.user.subscriptionPlan !== "pro") {
       toast.danger(
-        "You’ve reached your 2-tuition limit on the free plan. Please upgrade to continue.",
+        "You’ve reached your 4-tuition Apply limit on the free plan. Please upgrade to continue.",
       );
       router.push(`/payments`);
       return;
@@ -99,7 +100,16 @@ export default function ApplyButton({ tuition }: ApplyButtonProps) {
 
   return (
     <Modal>
-      <Button variant="primary" size="lg" fullWidth>
+      <Button
+        variant="primary"
+        size="lg"
+        fullWidth
+        onClick={() => {
+          if (!session) {
+            router.push(`/signin?redirectTo=${pathname}`);
+          }
+        }}
+      >
         <PaperPlane aria-hidden="true" className="h-4 w-4" />
         Apply for this tuition
       </Button>

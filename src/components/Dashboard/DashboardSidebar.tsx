@@ -225,9 +225,11 @@ export default function DashboardSidebar({
           }`}
         >
           <Avatar size="sm" color="accent" className="shrink-0">
-            {user.image ? (
-              <Avatar.Image alt={user.name} src={user.image} />
-            ) : null}
+            <Avatar.Image
+              alt={user.name}
+              src={user.image || "https://github.com/shadcn.png"}
+            />
+
             <Avatar.Fallback>{initials}</Avatar.Fallback>
           </Avatar>
 

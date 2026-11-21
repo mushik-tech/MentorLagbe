@@ -94,7 +94,7 @@ const Navbar = () => {
                           alt="Sarah Johnson"
                           src={
                             session?.user.image ||
-                            "https://img.heroui.chat/image/avatar?w=400&h=400&u=3"
+                            "https://github.com/shadcn.png"
                           }
                         />
                         <Avatar.Fallback>SJ</Avatar.Fallback>
@@ -108,7 +108,7 @@ const Navbar = () => {
                           <Avatar size="sm">
                             <Avatar.Image
                               alt="Sarah Johnson"
-                              src="https://img.heroui.chat/image/avatar?w=400&h=400&u=3"
+                              src="https://github.com/shadcn.png"
                             />
                             <Avatar.Fallback>SJ</Avatar.Fallback>
                           </Avatar>

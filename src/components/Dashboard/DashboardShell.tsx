@@ -30,7 +30,7 @@ export type DashboardUser = {
   name: string;
   email: string;
   image?: string | null;
-  plan: TSubscriptionPlan
+  plan: TSubscriptionPlan;
 };
 
 type DashboardShellProps = {
@@ -165,7 +165,7 @@ export default function DashboardShell({
 
             <div className="ml-auto flex items-center gap-2 sm:gap-3">
               <Chip
-                size="sm"
+                size="lg"
                 variant="soft"
                 color={user.plan === "pro" ? "success" : "default"}
                 className="hidden sm:inline-flex"
@@ -176,9 +176,9 @@ export default function DashboardShell({
               <Dropdown>
                 <Dropdown.Trigger className="flex items-center gap-2 rounded-full p-1 transition hover:bg-neutral-100 data-focus-visible:outline-2 data-focus-visible:outline-offset-2 data-focus-visible:outline-[#075144]">
                   <Avatar size="sm" color="accent">
-                    {user.image ? (
-                      <Avatar.Image alt={user.name} src={user.image} />
-                    ) : null}
+
+                      <Avatar.Image alt={user.name} src={user.image || "https://github.com/shadcn.png"} />
+                    
                     <Avatar.Fallback>{initials}</Avatar.Fallback>
                   </Avatar>
                   <span className="hidden text-left md:block">
