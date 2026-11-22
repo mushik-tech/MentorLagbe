@@ -53,6 +53,8 @@ export default function DashboardShell({
   const currentPage = getNavItem(role, pathname);
   const initials = getInitials(user.name);
 
+  console.log(meta);
+
   const handleSignOut = async () => {
     try {
       await signOut();
@@ -164,21 +166,25 @@ export default function DashboardShell({
             </div>
 
             <div className="ml-auto flex items-center gap-2 sm:gap-3">
-              <Chip
-                size="lg"
-                variant="soft"
-                color={user.plan === "pro" ? "success" : "default"}
-                className="hidden sm:inline-flex"
-              >
-                {user.plan === "pro" ? "Pro plan" : "Free plan"}
-              </Chip>
+              {meta.label !== "Admin" && (
+                <Chip
+                  size="lg"
+                  variant="soft"
+                  color={user.plan === "pro" ? "success" : "default"}
+                  className="hidden sm:inline-flex"
+                >
+                  {user.plan === "pro" ? "Pro plan" : "Free plan"}
+                </Chip>
+              )}
 
               <Dropdown>
                 <Dropdown.Trigger className="flex items-center gap-2 rounded-full p-1 transition hover:bg-neutral-100 data-focus-visible:outline-2 data-focus-visible:outline-offset-2 data-focus-visible:outline-[#075144]">
                   <Avatar size="sm" color="accent">
+                    <Avatar.Image
+                      alt={user.name}
+                      src={user.image || "https://github.com/shadcn.png"}
+                    />
 
-                      <Avatar.Image alt={user.name} src={user.image || "https://github.com/shadcn.png"} />
-                    
                     <Avatar.Fallback>{initials}</Avatar.Fallback>
                   </Avatar>
                   <span className="hidden text-left md:block">
