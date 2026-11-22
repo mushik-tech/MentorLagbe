@@ -198,7 +198,7 @@ export default function Subscription() {
 
             <div className="mt-auto pt-8">
               <Link
-                href="/signup?plan=pro"
+                href="/payments"
                 className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-[#f4d21f] text-sm font-bold text-[#04382f] transition hover:bg-[#e8c50f] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#f4d21f]"
               >
                 <svg

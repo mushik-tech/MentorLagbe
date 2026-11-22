@@ -128,7 +128,6 @@ export default function NewTuitionForm() {
 
     const result = await res.json();
 
-    console.log(result);
     const url = result.data.url;
 
     setBanner({ file, url });

@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import React from "react";
 
 const TuitionTableRowAction = ({ tuition }: { tuition: ITuition }) => {
-  console.log(tuition);
   const router = useRouter();
 
   const handleUpdateStatus = async (status: TStatus) => {

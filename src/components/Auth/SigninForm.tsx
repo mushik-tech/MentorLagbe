@@ -38,7 +38,6 @@ const SigninForm = () => {
       return;
     }
 
-    console.log("Signup successful:", { data, error });
     toast.success("Signin successful");
   };
   return (

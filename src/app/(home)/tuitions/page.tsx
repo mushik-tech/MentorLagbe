@@ -3,7 +3,7 @@ import { Chip, EmptyState, Surface } from "@heroui/react";
 import TuitionCard from "@/components/Tuition/TuitionCard";
 import TuitionFilters from "@/components/Tuition/TuitionFilters";
 import TuitionSearch from "@/components/Tuition/TuitionSearch";
-import { getTuitions } from "@/lib/api/tuitions";
+import { getPublicTuitions } from "@/lib/api/tuitions";
 
 export const dynamic = "force-dynamic";
 
@@ -16,18 +16,9 @@ const BrowseTuitionsPage = async ({
   const urlSearch = new URLSearchParams(params as Record<string, string>);
   const query = urlSearch.toString();
 
-  const allTuitions = await getTuitions(query);
-  // Keep the subject filter options stable: they come from the full list,
-  // not the already-filtered results.
-  const subjectPool = query ? await getTuitions() : allTuitions;
+  const allTuitions = await getPublicTuitions(query);
 
-  const isPublic = (tuition: (typeof allTuitions)[number]) =>
-    tuition.approvalStatus === "approved" && tuition.isActive;
-
-  const tuitions = (Array.isArray(allTuitions) ? allTuitions : []).filter(
-    isPublic,
-  );
-
+  const tuitions = allTuitions || [];
 
   return (
     <section className="bg-[#f6f8f6] pb-16 pt-6 sm:pt-8 lg:pb-20">
@@ -61,7 +52,7 @@ const BrowseTuitionsPage = async ({
             </div>
 
             <div className="mt-5 grid items-start gap-5 lg:grid-cols-12 lg:gap-6">
-              <TuitionFilters/>
+              <TuitionFilters />
 
               <div className="min-w-0 lg:col-span-9">
                 {tuitions.length > 0 ? (

@@ -1,3 +1,4 @@
+import { TRole } from "@/types/users";
 import {
   Books,
   Calendar,
@@ -9,7 +10,6 @@ import {
   Persons,
 } from "@gravity-ui/icons";
 import type { ComponentType, SVGProps } from "react";
-import type { DashboardRole } from "@/lib/session";
 
 export type DashboardNavItem = {
   label: string;
@@ -18,23 +18,22 @@ export type DashboardNavItem = {
   icon: ComponentType<SVGProps<SVGSVGElement>>;
 };
 
-export const roleMeta: Record<DashboardRole, { label: string; blurb: string }> =
-  {
-    student: {
-      label: "Student",
-      blurb: "Find tutors, book sessions, and keep your learning on track.",
-    },
-    tutor: {
-      label: "Tutor",
-      blurb: "Manage your batches, requests, and earnings in one place.",
-    },
-    admin: {
-      label: "Admin",
-      blurb: "Keep the marketplace verified, healthy, and running smoothly.",
-    },
-  };
+export const roleMeta: Record<TRole, { label: string; blurb: string }> = {
+  student: {
+    label: "Student",
+    blurb: "Find tutors, book sessions, and keep your learning on track.",
+  },
+  tutor: {
+    label: "Tutor",
+    blurb: "Manage your batches, requests, and earnings in one place.",
+  },
+  admin: {
+    label: "Admin",
+    blurb: "Keep the marketplace verified, healthy, and running smoothly.",
+  },
+};
 
-export const roleNav: Record<DashboardRole, DashboardNavItem[]> = {
+export const roleNav: Record<TRole, DashboardNavItem[]> = {
   student: [
     {
       label: "Overview",
@@ -125,10 +124,7 @@ export function isNavItemActive(href: string, pathname: string): boolean {
   return depth > 2 && pathname.startsWith(`${href}/`);
 }
 
-export function getNavItem(
-  role: DashboardRole,
-  pathname: string,
-): DashboardNavItem {
+export function getNavItem(role: TRole, pathname: string): DashboardNavItem {
   const items = [...roleNav[role], ...accountNav];
 
   return (

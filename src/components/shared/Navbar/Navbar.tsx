@@ -133,6 +133,9 @@ const Navbar = () => {
                 </Popover>
               </div>
               <Button
+                className={
+                  " bg-linear-to-br from-[#075144] via-[#064a3e] to-[#04382f] rounded-lg"
+                }
                 onClick={async () => {
                   await signOut();
                   router.refresh();

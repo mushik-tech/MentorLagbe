@@ -17,7 +17,7 @@ export default async function PaymentPage({
   const plan = getPricingPlan(session.user.role);
 
   if (!plan) {
-    redirect("/dashboard");
+    redirect(`/dashboard/${session?.user.role}`);
   }
 
   const { canceled } = await searchParams;

@@ -11,13 +11,10 @@ const NavLinks = ({ href, children }: NavLinksProps) => {
   const pathname = usePathname();
 
   const isActive = pathname === href;
-
-  // console.log(pathname, href);
-
   return (
     <Link
       href={href}
-      className={`${isActive ? "text-red-400" : ""} hover:text-primary`}
+      className={`${isActive ? "border px-4 py-2 rounded-xl border-[#075144]" : ""} hover:text-primary`}
     >
       {children}
     </Link>

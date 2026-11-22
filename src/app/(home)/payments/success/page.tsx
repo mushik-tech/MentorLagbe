@@ -26,7 +26,7 @@ export default async function PaymentSuccessPage({
   }
 
   if (session.status !== "complete" || session.payment_status !== "paid") {
-    return redirect("/checkout/canceled");
+    return redirect("/payments/cancelled");
   }
 
   const authSession = await getSession();

@@ -31,7 +31,6 @@ const SignupForm = () => {
       role: "student" | "tutor";
     };
 
-    console.log("User Info:", userInfo);
 
     const { data, error } = await signUp.email({
       name: userInfo.name,
@@ -46,8 +45,6 @@ const SignupForm = () => {
       toast.danger(`Signup failed: ${error.message}`);
       return;
     }
-
-    console.log("Signup successful:", { data, error });
 
     toast.success("Accout creation successful");
     router.push("/");

@@ -8,6 +8,21 @@ export const getTuitions = async (query = ""): Promise<ITuition[]> => {
   return res.json();
 };
 
+export const getPublicTuitions = async (query = ""): Promise<ITuition[]> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/tuitions?${query}`,
+  );
+
+  return res.json();
+};
+
+export const getFeaturedTuitions = async (): Promise<ITuition[]> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/featured-tuitions`,
+  );
+  return res.json();
+};
+
 export const getTuitionsCount = async (
   email: string,
 ): Promise<{ count: number }> => {

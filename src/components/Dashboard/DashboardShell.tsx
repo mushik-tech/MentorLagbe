@@ -53,8 +53,6 @@ export default function DashboardShell({
   const currentPage = getNavItem(role, pathname);
   const initials = getInitials(user.name);
 
-  console.log(meta);
-
   const handleSignOut = async () => {
     try {
       await signOut();

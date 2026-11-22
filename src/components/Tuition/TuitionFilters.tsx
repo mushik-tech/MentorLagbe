@@ -36,7 +36,9 @@ export default function TuitionFilters() {
   };
 
   return (
-    <div className={`col-span-12 w-full min-w-0 self-start lg:col-span-3`}>
+    <div
+      className={`col-span-12 w-full min-w-0 self-start lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto lg:col-span-3`}
+    >
       <Surface className="rounded-2xl border border-black/5 bg-white p-4 shadow-[0_30px_70px_-60px_rgba(4,56,47,0.7)] sm:p-5">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div>
