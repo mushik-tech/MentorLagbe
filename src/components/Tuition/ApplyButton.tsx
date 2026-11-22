@@ -43,9 +43,9 @@ export default function ApplyButton({ tuition }: ApplyButtonProps) {
 
     const { count } = await getApplicationsCount(session?.user.email as string);
 
-    if (count > 4 && session?.user.subscriptionPlan !== "pro") {
+    if (count >= 5 && session?.user.subscriptionPlan !== "pro") {
       toast.danger(
-        "You’ve reached your 4-tuition Apply limit on the free plan. Please upgrade to continue.",
+        "You’ve reached your 5-tuition Apply limit on the free plan. Please upgrade to continue.",
       );
       router.push(`/payments`);
       return;

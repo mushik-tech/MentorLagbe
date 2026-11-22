@@ -10,25 +10,13 @@ export const postApplication = async (data: IApplicationFormData) => {
 };
 
 export const updateApplicationStatus = async (id: string, status: string) => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/applications/${id}/status`,
-    {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ status }),
-    },
-  );
+  const api = `${process.env.NEXT_PUBLIC_API_BASE_URL}/applications/${id}/status`;
+  const res = await protectedMutation(api, "PATCH", { status });
   return res.json();
 };
 
 export const deleteApplication = async (id: string) => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/applications/${id}`,
-    {
-      method: "DELETE",
-    },
-  );
+  const api = `${process.env.NEXT_PUBLIC_API_BASE_URL}/applications/${id}`;
+  const res = await protectedMutation(api, "DELETE");
   return res.json();
 };

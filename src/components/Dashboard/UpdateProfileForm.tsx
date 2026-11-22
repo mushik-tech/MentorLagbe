@@ -47,9 +47,11 @@ function formatFileSize(bytes: number) {
 export default function UpdateProfileForm() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const avatarUrlRef = useRef<string | null>(null);
-  const { data: session } = useSession();
+  const { data: session, refetch } = useSession();
 
   const router = useRouter();
+
+  console.log(session?.user);
 
   const [avatar, setAvatar] = useState<{ file: File; url: string } | null>(
     null,
@@ -158,6 +160,7 @@ export default function UpdateProfileForm() {
     if (data.modifiedCount > 0) {
       toast.success("Profile updated successfull");
       form.reset();
+      refetch();
       router.refresh();
     }
   };

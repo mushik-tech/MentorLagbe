@@ -1,5 +1,3 @@
-"use server";
-
 export const verifyPayment = async (sessionId: string) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/payments`, {
     method: "POST",

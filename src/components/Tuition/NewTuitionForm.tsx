@@ -140,9 +140,9 @@ export default function NewTuitionForm() {
     event.preventDefault();
     const form = event.currentTarget;
 
-    const { count } = await getTuitionsCount(session?.user.email as string);
+    const {count}  = await getTuitionsCount(session?.user.email as string);
 
-    if (count > 2 && session?.user.subscriptionPlan !== "pro") {
+    if (count >= 2 && session?.user.subscriptionPlan !== "pro") {
       toast.danger(
         "You’ve reached your 2-tuition limit on the free plan. Please upgrade to continue.",
       );

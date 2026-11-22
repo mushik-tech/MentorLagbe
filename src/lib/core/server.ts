@@ -1,4 +1,4 @@
-'use server'
+"use server";
 
 import { auth } from "@/lib/auth";
 import { TRole } from "@/types/users";
@@ -41,10 +41,10 @@ export const authFetch = async (api: string) => {
   return res;
 };
 
-export const protectedMutation = async <T>(
+export const protectedMutation = async(
   api: string,
   method: TMethods,
-  data?: T,
+  data?: unknown,
 ) => {
   const token = await getToken();
 

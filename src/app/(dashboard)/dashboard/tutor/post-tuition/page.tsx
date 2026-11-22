@@ -1,6 +1,6 @@
 import NewTuitionForm from "@/components/Tuition/NewTuitionForm";
 
-const PostTuitionPage = () => {
+const PostTuitionPage = async () => {
   return <NewTuitionForm />;
 };
 

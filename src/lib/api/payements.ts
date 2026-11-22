@@ -1,3 +1,5 @@
+'use server'
+
 import { authFetch } from "@/lib/core/server";
 import { IPayment } from "@/types/payments";
 
