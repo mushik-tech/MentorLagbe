@@ -1,5 +1,6 @@
 "use server";
 
+import { protectedMutation } from "@/lib/core/server";
 import { TStatus, TuitionFormData } from "@/types/tuitions";
 
 export const postTuition = async (data: TuitionFormData) => {
@@ -14,16 +15,8 @@ export const postTuition = async (data: TuitionFormData) => {
 };
 
 export const updateTuitionStatus = async (id: string, status: TStatus) => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/tuitions/${id}/status`,
-    {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ status }),
-    },
-  );
+  const api = `${process.env.NEXT_PUBLIC_API_BASE_URL}/tuitions/${id}/status`;
+  const res = await protectedMutation(api, "PATCH", { status });
   return res.json();
 };
 

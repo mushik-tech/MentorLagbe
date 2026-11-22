@@ -13,6 +13,7 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const { data: session, isPending } = useSession();
+
   const router = useRouter();
 
   const navLinks = (
@@ -123,10 +124,10 @@ const Navbar = () => {
                         </div>
                       </Popover.Heading>
                       <div className="flex flex-col gap-2 py-4">
-                        <Link href={`dashboard/${session?.user.role}`}>
+                        <Link href={`/dashboard/${session?.user.role}`}>
                           Dashboard
                         </Link>
-                        <Link href={"/update-profile"}>Update Profile</Link>
+                        <Link href={"/dashboard/update-profile"}>Update Profile</Link>
                       </div>
                     </Popover.Dialog>
                   </Popover.Content>
