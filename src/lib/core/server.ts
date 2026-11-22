@@ -1,3 +1,5 @@
+'use server'
+
 import { auth } from "@/lib/auth";
 import { TRole } from "@/types/users";
 import { headers } from "next/headers";

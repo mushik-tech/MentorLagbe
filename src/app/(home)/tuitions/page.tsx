@@ -12,6 +12,7 @@ const BrowseTuitionsPage = async ({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
+
   const params = await searchParams;
   const urlSearch = new URLSearchParams(params as Record<string, string>);
   const query = urlSearch.toString();

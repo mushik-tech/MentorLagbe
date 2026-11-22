@@ -90,9 +90,9 @@ const TuitionDetailsPage = async ({ params }: PageProps<"/tuitions/[id]">) => {
 
   if (!tuition?._id) {
     return (
-      <section className="bg-[#f6f8f6] pb-16 pt-6 sm:pt-8 lg:pb-20">
+      <section className=" pb-16 pt-6 sm:pt-8 lg:pb-20">
         <div className="mx-auto w-full max-w-3xl px-4 sm:px-6 lg:px-10">
-          <Surface className="rounded-3xl border border-black/5 bg-white shadow-[0_30px_70px_-60px_rgba(4,56,47,0.7)]">
+          <Surface className="rounded-3xl">
             <EmptyState className="flex flex-col items-center gap-3 px-5 py-16 text-center sm:px-6">
               <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#e7f4ef] text-[#075144]">
                 <BookOpen aria-hidden="true" className="h-6 w-6" />

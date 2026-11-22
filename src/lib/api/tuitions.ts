@@ -3,7 +3,7 @@ import { ITuition } from "@/types/tuitions";
 
 export const getPublicTuitions = async (query = ""): Promise<ITuition[]> => {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/tuitions?${query}`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/public-tuitions?${query}`,
   );
 
   return res.json();
