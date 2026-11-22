@@ -1,13 +1,26 @@
 "use client";
 
+import UpdateTuitionForm from "@/components/Tuition/UpdateTuitionForm";
 import { deleteTuition } from "@/lib/actions/tuitions";
 import { ITuition } from "@/types/tuitions";
-import { Pencil, TrashBin } from "@gravity-ui/icons";
-import { AlertDialog, Button, toast } from "@heroui/react";
+import { Envelope, Pencil, TrashBin } from "@gravity-ui/icons";
+import {
+  AlertDialog,
+  Button,
+  Input,
+  Label,
+  Modal,
+  Surface,
+  TextField,
+  toast,
+  useOverlayState,
+} from "@heroui/react";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 const MyTuitionTableActions = ({ tuition }: { tuition: ITuition }) => {
+  const modalState = useOverlayState();
+
   const router = useRouter();
 
   const handleDeleteTuition = async () => {
@@ -21,14 +34,33 @@ const MyTuitionTableActions = ({ tuition }: { tuition: ITuition }) => {
 
   return (
     <>
-      <Button
-        isIconOnly
-        size="sm"
-        variant="secondary"
-        aria-label={`Edit ${tuition.title}`}
-      >
-        <Pencil aria-hidden="true" className="h-4 w-4" />
-      </Button>
+      <Modal state={modalState}>
+        <Button
+          isIconOnly
+          size="sm"
+          variant="secondary"
+          aria-label={`Edit ${tuition.title}`}
+          onPress={modalState.open}
+        >
+          <Pencil aria-hidden="true" className="h-4 w-4" />
+        </Button>
+        <Modal.Backdrop>
+          <Modal.Container placement="auto">
+            <Modal.Dialog className="sm:max-w-lg">
+              <Modal.CloseTrigger />
+              <Modal.Body>
+                <Surface variant="default">
+                  <UpdateTuitionForm
+                    tuition={tuition}
+                    onSuccess={modalState.close}
+                  />
+                </Surface>
+              </Modal.Body>
+              <Modal.Footer></Modal.Footer>
+            </Modal.Dialog>
+          </Modal.Container>
+        </Modal.Backdrop>
+      </Modal>
 
       <AlertDialog>
         <Button

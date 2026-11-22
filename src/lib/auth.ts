@@ -10,12 +10,12 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
-  // socialProviders: {
-  //   github: {
-  //     clientId: process.env.GITHUB_CLIENT_ID as string,
-  //     clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
-  //   },
-  // },
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    },
+  },
   user: {
     additionalFields: {
       role: {
@@ -28,15 +28,23 @@ export const auth = betterAuth({
         defaultValue: "free",
         input: false,
       },
+      bio: {
+        type: "string",
+        input: true,
+      },
+      phone: {
+        type: "string",
+        input: true,
+      },
     },
   },
   plugins: [jwt()],
   session: {
     cookieCache: {
       enabled: true,
-      strategy: 'jwt',
-      maxAge: 7 * 24 * 60 * 60 // 7 days
-    }
+      strategy: "jwt",
+      maxAge: 7 * 24 * 60 * 60, // 7 days
+    },
   },
   database: mongodbAdapter(db, {
     client,

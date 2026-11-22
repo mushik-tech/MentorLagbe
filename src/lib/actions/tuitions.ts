@@ -21,6 +21,12 @@ export const updateActiveStatus = async (id: string, isActive: boolean) => {
   return res.json();
 };
 
+export const updateTuition = async (id: string, data: any) => {
+  const api = `${process.env.NEXT_PUBLIC_API_BASE_URL}/tuitions/${id}`;
+  const res = await protectedMutation(api, "PATCH", data);
+  return res.json();
+};
+
 export const deleteTuition = async (id: string) => {
   const api = `${process.env.NEXT_PUBLIC_API_BASE_URL}/tuitions/${id}`;
   const res = await protectedMutation(api, "DELETE");

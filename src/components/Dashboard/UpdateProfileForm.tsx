@@ -22,8 +22,7 @@ import {
   toast,
 } from "@heroui/react";
 import { CloudArrowUpIn, TrashBin } from "@gravity-ui/icons";
-import { useSession } from "@/lib/auth-client";
-import { updateUserProfile } from "@/lib/actions/users";
+import { updateUser, useSession } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 
 const MAX_AVATAR_BYTES = 5 * 1024 * 1024;
@@ -50,8 +49,6 @@ export default function UpdateProfileForm() {
   const { data: session, refetch } = useSession();
 
   const router = useRouter();
-
-  console.log(session?.user);
 
   const [avatar, setAvatar] = useState<{ file: File; url: string } | null>(
     null,
@@ -155,9 +152,20 @@ export default function UpdateProfileForm() {
       return;
     }
 
-    const data = await updateUserProfile(session?.user.id as string, profile);
+    const { data, error } = await updateUser({
+      name: profile.name,
+      bio: profile.bio,
+      phone: profile.phone,
+      image: profile.image,
+    });
 
-    if (data.modifiedCount > 0) {
+    if (error) {
+      toast.danger(error.message);
+      form.reset();
+      return;
+    }
+
+    if (data) {
       toast.success("Profile updated successfull");
       form.reset();
       refetch();

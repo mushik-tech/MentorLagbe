@@ -127,7 +127,9 @@ const Navbar = () => {
                         <Link href={`/dashboard/${session?.user.role}`}>
                           Dashboard
                         </Link>
-                        <Link href={"/dashboard/update-profile"}>Update Profile</Link>
+                        <Link href={"/dashboard/update-profile"}>
+                          Update Profile
+                        </Link>
                       </div>
                     </Popover.Dialog>
                   </Popover.Content>
@@ -148,10 +150,16 @@ const Navbar = () => {
           ) : (
             <>
               <Link href="signin" className="block py-2">
-                <Button variant="outline"> Sign In</Button>
+                <Button variant="outline" className={"border border-[#075144] rounded-lg"}> Sign In</Button>
               </Link>
               <Link href="signup">
-                <Button>Sign Up</Button>
+                <Button
+                  className={
+                    " bg-linear-to-br from-[#075144] via-[#064a3e] to-[#04382f] rounded-lg"
+                  }
+                >
+                  Sign Up
+                </Button>
               </Link>
             </>
           )}
